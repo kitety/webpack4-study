@@ -1,4 +1,4 @@
 const greet = () => {
-  console.log("hello webpack");
+  console.log("hello");
 };
 greet();

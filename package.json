@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "webpack --mode=development",
+    "dev1": "./node_modules/webpack/bin/webpack.js --mode=development",
+    "dev": "npx webpack ",
     "build": "webpack --mode=production"
   },
   "keywords": [],
