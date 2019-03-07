@@ -1,0 +1,14 @@
+{
+  "presets": [["@babel/preset-env", { "debug": false }]],
+  "plugins": [
+    // 预设中已经有了
+    // ["@babel/plugin-transform-arrow-functions"],
+    // ["@babel/plugin-transform-classes"],
+    [
+      "@babel/plugin-proposal-decorators",
+      {
+        "legacy": true
+      }
+    ]
+  ]
+}
