@@ -1,5 +1,6 @@
 {
-  "presets": [["@babel/preset-env", { "debug": false }]],
+  // useBuiltIns polyfill的另一种方法
+  "presets": [["@babel/preset-env", { "debug": true, "useBuiltIns": "entry" }]],
   "plugins": [
     // 预设中已经有了
     // ["@babel/plugin-transform-arrow-functions"],
