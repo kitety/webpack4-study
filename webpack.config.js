@@ -1,5 +1,9 @@
 const path = require("path");
+// html模板
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+// 抽离css
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const devMode = process.env.NODE_ENV !== "production";
 
 module.exports = {
   // entry: "./src/index.js",
@@ -52,26 +56,34 @@ module.exports = {
       {
         test: /\.css$/,
         // 先用cssloader转换 再用styleloader注入style
-        use: ["style-loader", "css-loader"]
+        use: [
+          // "style-loader" //之前使用的css的loader
+          devMode ? "style-loader" : MiniCssExtractPlugin.loader,
+          "css-loader"
+        ]
       },
       {
         test: /\.less$/,
         use: [
-          {
-            loader: "style-loader" // creates style nodes from JS strings
-          },
-          {
-            loader: "css-loader" // translates CSS into CommonJS
-          },
-          {
-            loader: "less-loader" // compiles Less to CSS
-          }
+          // {
+          //   loader: "style-loader" // creates style nodes from JS strings
+          // },
+          // {
+          //   loader: "css-loader" // translates CSS into CommonJS
+          // },
+          // {
+          //   loader: "less-loader" // compiles Less to CSS
+          // }
+          devMode ? 'style-loader' : MiniCssExtractPlugin.loader,
+          "css-loader", // translates CSS into CommonJS
+          "less-loader" // compiles Less to CSS
         ]
       },
       {
         test: /\.(scss|sass)$/,
         use: [
-          "style-loader", // creates style nodes from JS strings
+          // "style-loader", // creates style nodes from JS strings
+          devMode ? "style-loader" : MiniCssExtractPlugin.loader,
           "css-loader", // translates CSS into CommonJS
           "sass-loader" // compiles Sass to CSS, using Node Sass by default
         ]
@@ -93,6 +105,13 @@ module.exports = {
       template: "./public/index.html",
       hash: true,
       chunks: ["hello"]
+    }),
+    new MiniCssExtractPlugin({
+      // Options similar to the same options in webpackOptions.output
+      // both options are optional
+      filename: devMode ? "[name].css" : "[name].[hash].css",
+      // chunkFilename: "[id].css"
+      chunkFilename: devMode ? "[id].css" : "[id].[hash].css"
     })
   ]
 };
