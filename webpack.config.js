@@ -48,6 +48,33 @@ module.exports = {
             // ]
           }
         }
+      },
+      {
+        test: /\.css$/,
+        // 先用cssloader转换 再用styleloader注入style
+        use: ["style-loader", "css-loader"]
+      },
+      {
+        test: /\.less$/,
+        use: [
+          {
+            loader: "style-loader" // creates style nodes from JS strings
+          },
+          {
+            loader: "css-loader" // translates CSS into CommonJS
+          },
+          {
+            loader: "less-loader" // compiles Less to CSS
+          }
+        ]
+      },
+      {
+        test: /\.(scss|sass)$/,
+        use: [
+          "style-loader", // creates style nodes from JS strings
+          "css-loader", // translates CSS into CommonJS
+          "sass-loader" // compiles Sass to CSS, using Node Sass by default
+        ]
       }
     ]
   },
