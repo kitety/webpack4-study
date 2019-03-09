@@ -1,4 +1,4 @@
-import '@babel/polyfill' // polyfill的另一种方法
+// import '@babel/polyfill' // polyfill的另一种方法
 import person from "./lib";
 
 console.log(person);
@@ -35,8 +35,16 @@ getPosts()
     console.log(err);
   });
 
+// core-js
 Object.assign({});
 Array.from([1, 2]);
 new Promise((resolve, reject) => {
-  console.log('promise');
+  console.log("promise");
 });
+
+// regenerator
+function* genFun() {
+  yield 1;
+}
+let g = genFun();
+g.next();
