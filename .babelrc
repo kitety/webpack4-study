@@ -3,7 +3,12 @@
   // "presets": [["@babel/preset-env", { "debug": true, "useBuiltIns": "entry" }]],
   // 按需编译
   // "presets": [["@babel/preset-env", { "debug": true, "useBuiltIns": "usage" }]],
-  "presets": [["@babel/preset-env", { "debug": true }]],
+  "presets": [
+    ["@babel/preset-env", { "debug": true }],
+    // react 支持
+    ["@babel/preset-react"]
+  ],
+
   "plugins": [
     // 预设中已经有了
     // ["@babel/plugin-transform-arrow-functions"],

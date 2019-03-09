@@ -1,5 +1,6 @@
 // import '@babel/polyfill' // polyfill的另一种方法
 import person from "./lib";
+import App from './App'
 
 console.log(person);
 const greet = () => {
