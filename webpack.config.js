@@ -1,4 +1,6 @@
 const path = require("path");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+
 module.exports = {
   // entry: "./src/index.js",
   entry: {
@@ -12,7 +14,7 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, "dist"),
     // 多个文件  是根据那个entry的key
-    filename: "[name].bundle.js"
+    filename: "[name]-[hash].bundle.js"
   },
   module: {
     rules: [
@@ -49,5 +51,21 @@ module.exports = {
       }
     ]
   },
-  mode: "development"
+  mode: "development",
+  plugins: [
+    new HtmlWebpackPlugin({
+      title: "My App",
+      filename: "admin.html",
+      template: "./public/index.html",
+      hash: true,
+      chunks: ["app"]
+    }),
+    new HtmlWebpackPlugin({
+      title: "My Index",
+      filename: "index.html",
+      template: "./public/index.html",
+      hash: true,
+      chunks: ["hello"]
+    })
+  ]
 };
