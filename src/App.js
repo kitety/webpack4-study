@@ -5,7 +5,7 @@ import "./index.less";
 // import "./index.scss";
 
 const App = () => {
-  return <div>React Here</div>;
+  return <div>React Here!! live-server</div>;
 };
 ReactDom.render(<App />, document.getElementById("root"));
 export default App;

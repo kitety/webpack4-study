@@ -3,6 +3,8 @@ const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 // 抽离css
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+// 清除dist文件的插件
+const CleanWebpackPlugin = require("clean-webpack-plugin");
 const devMode = process.env.NODE_ENV !== "production";
 
 module.exports = {
@@ -74,7 +76,7 @@ module.exports = {
           // {
           //   loader: "less-loader" // compiles Less to CSS
           // }
-          devMode ? 'style-loader' : MiniCssExtractPlugin.loader,
+          devMode ? "style-loader" : MiniCssExtractPlugin.loader,
           "css-loader", // translates CSS into CommonJS
           "less-loader" // compiles Less to CSS
         ]
@@ -94,14 +96,14 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       title: "My App",
-      filename: "admin.html",
+      filename: "index.html",
       template: "./public/index.html",
       hash: true,
       chunks: ["app"]
     }),
     new HtmlWebpackPlugin({
       title: "My Index",
-      filename: "index.html",
+      filename: "admin.html",
       template: "./public/index.html",
       hash: true,
       chunks: ["hello"]
@@ -112,6 +114,12 @@ module.exports = {
       filename: devMode ? "[name].css" : "[name].[hash].css",
       // chunkFilename: "[id].css"
       chunkFilename: devMode ? "[id].css" : "[id].[hash].css"
-    })
-  ]
+    }),
+    new CleanWebpackPlugin()
+  ],
+  devServer: {
+    contentBase: path.join(__dirname, "dist"),
+    compress: true,
+    port: 9000
+  }
 };
