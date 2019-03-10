@@ -5,6 +5,10 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 // 清除dist文件的插件
 const CleanWebpackPlugin = require("clean-webpack-plugin");
+// 图片压缩
+var ImageminPlugin = require("imagemin-webpack-plugin").default;
+// 打包进度
+var ProgressBarPlugin = require("progress-bar-webpack-plugin");
 const devMode = process.env.NODE_ENV !== "production";
 
 module.exports = {
@@ -20,7 +24,7 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, "dist"),
     // 多个文件  是根据那个entry的key
-    filename: "[name]-[hash].bundle.js"
+    filename: "[name]-[hash:5].bundle.js"
   },
   module: {
     rules: [
@@ -59,9 +63,10 @@ module.exports = {
         test: /\.css$/,
         // 先用cssloader转换 再用styleloader注入style
         use: [
+          // loader加上sourceMap可以显示对应的源文件
           // "style-loader" //之前使用的css的loader
-          devMode ? "style-loader" : MiniCssExtractPlugin.loader,
-          "css-loader"
+          devMode ? "style-loader?sourceMap" : MiniCssExtractPlugin.loader,
+          "css-loader?sourceMap"
         ]
       },
       {
@@ -89,6 +94,23 @@ module.exports = {
           "css-loader", // translates CSS into CommonJS
           "sass-loader" // compiles Sass to CSS, using Node Sass by default
         ]
+      },
+      {
+        test: /\.(png|jpg|gif)$/,
+        use: [
+          {
+            loader: "file-loader",
+            options: {
+              name(file) {
+                if (process.env.NODE_ENV === "development") {
+                  return "[path][name].[ext]";
+                }
+
+                return "[hash:5].[ext]";
+              }
+            }
+          }
+        ]
       }
     ]
   },
@@ -111,15 +133,28 @@ module.exports = {
     new MiniCssExtractPlugin({
       // Options similar to the same options in webpackOptions.output
       // both options are optional
-      filename: devMode ? "[name].css" : "[name].[hash].css",
+      filename: devMode ? "[name].css" : "[name].[hash:5].css",
       // chunkFilename: "[id].css"
-      chunkFilename: devMode ? "[id].css" : "[id].[hash].css"
+      chunkFilename: devMode ? "[id].css" : "[id].[hash:5].css"
     }),
+    new ImageminPlugin({
+      disable: devMode, // Disable during development
+      pngquant: {
+        quality: "95-100"
+      }
+    }),
+    new ProgressBarPlugin(),
     new CleanWebpackPlugin()
   ],
   devServer: {
     contentBase: path.join(__dirname, "dist"),
     compress: true,
-    port: 9000
-  }
+    port: 9000,
+    overlay: {
+      warnings: true,
+      errors: true
+    }
+  },
+  // 用于显示报错的源文件
+  devtool: "source-map"
 };

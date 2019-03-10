@@ -1,6 +1,6 @@
 // import '@babel/polyfill' // polyfill的另一种方法
-import person from "./lib";
-import App from './App'
+import { person } from "./lib";
+import "./App";
 
 console.log(person);
 const greet = () => {
@@ -8,14 +8,14 @@ const greet = () => {
 };
 greet();
 
-class Test {
-  constructor(name) {
-    this.name = name;
-  }
-  logger() {
-    console.log("Hello");
-  }
-}
+// class Test {
+//   constructor(name) {
+//     this.name = name;
+//   }
+//   logger() {
+//     console.log("Hello");
+//   }
+// }
 @annotation
 class MyClass {}
 
@@ -42,7 +42,7 @@ Array.from([1, 2]);
 new Promise((resolve, reject) => {
   console.log("promise");
 });
-
+zz;
 // regenerator
 function* genFun() {
   yield 1;
